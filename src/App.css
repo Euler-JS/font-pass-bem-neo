@@ -1,0 +1,115 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.one{
+ background-color: aqua;
+ display: flex;
+ flex-direction: row;
+ border: 1px 1px red ;
+}
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+label#foto{
+  border: 1px dashed grey;
+  display: flex;
+  cursor: pointer;
+  background-size: cover;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  height: 50px;
+  margin-top: 2px;
+  position: absolute;
+  top: 0px;
+  right: 5%;
+  height: 16%;
+  width: 40%;
+}
+
+label#perfil{
+  border: 1px dashed grey;
+  display: flex;
+  cursor: pointer;
+  background-size: cover;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  height: 50px;
+  margin-top: 2px;
+  position: absolute;
+  top: 70px;
+  height: 16%;
+  width: 10%;
+}
+label#perfil input{
+  display: none;
+}
+label#perfil.temfoto{
+  border: 0px;
+}
+label#perfil.temfoto p{
+  display: none;
+}
+
+label#videos{
+  border: 1px dashed grey;
+  display: flex;
+  cursor: pointer;
+  background-size: cover;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  height: 50px;
+  margin-top: 2px;
+  position: absolute;
+  top: 0px;
+  right: 5%;
+  height: 30%;
+  width: 44%;
+}
+
+
+
+label#foto input{
+  display: none;
+}
+label#foto.temfoto{
+  border: 0px;
+}
+label#foto.temfoto p{
+  display: none;
+}
+#edit{
+  cursor: pointer;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
