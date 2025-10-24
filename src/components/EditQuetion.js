@@ -278,7 +278,7 @@ export default function ADDTEMA({StatusTheme, CancelarS, datas ,Status}) {
                     
                 />
                 <label id="foto" 
-                style={{backgroundImage: `url(${previwImg || datas?.imagem_url})`}}
+                style={{backgroundImage: `url(${previwImg || 'https://raw.githubusercontent.com/Euler-JS/passebem_uploads/main/uploads/'+datas?.imagem})`}}
                 className={foto ? "temfoto": ""}
                 >
                     <TextField
@@ -293,7 +293,7 @@ export default function ADDTEMA({StatusTheme, CancelarS, datas ,Status}) {
                     
                     
                 </label>
-                <p>Link da imagem atual: {datas?.imagem_url}</p>
+                <p>Link da imagem atual: {'https://raw.githubusercontent.com/Euler-JS/passebem_uploads/main/uploads/'+datas?.imagem}</p>
                 
                 
             </DialogContent>
