@@ -6,7 +6,6 @@ import {
   Typography,
   Button,
   CircularProgress,
-  Alert,
   List,
   ListItem,
   ListItemText,
@@ -17,13 +16,17 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  LinearProgress,
+  Chip,
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import DeleteIcon from '@material-ui/icons/Delete';
-import GetAppIcon from '@material-ui/icons/GetApp';
+import AddIcon from '@material-ui/icons/Add';
+import ClearIcon from '@material-ui/icons/Clear';
 import api from '../../services/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +76,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     gap: theme.spacing(1),
     justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  uploadStats: {
+    display: 'flex',
+    gap: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -86,6 +95,7 @@ export default function Upload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('success');
+  const [uploadProgress, setUploadProgress] = useState({});
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -137,9 +147,15 @@ export default function Upload() {
         formData.append('files', file);
       });
 
-      const response = await api.post('/upload', formData, {
+      const response = await api.post('upload/multiple', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress({ total: progress });
         },
       });
 
@@ -153,12 +169,13 @@ export default function Upload() {
             status: 'success',
           })),
         ]);
-        setMessage(`${files.length} arquivo(s) enviado(s) com sucesso!`);
+        setMessage(`✓ ${files.length} arquivo(s) enviado(s) com sucesso!`);
         setMessageType('success');
         setFiles([]);
+        setUploadProgress({});
       }
     } catch (error) {
-      setMessage('Erro ao enviar arquivo. Tente novamente.');
+      setMessage('❌ Erro ao enviar arquivo. Tente novamente.');
       setMessageType('error');
       console.error('Erro ao fazer upload:', error);
     } finally {
@@ -230,12 +247,32 @@ export default function Upload() {
         {files.length > 0 && (
           <Paper className={classes.fileList}>
             <Box p={2}>
-              <Typography variant="h6" gutterBottom>
-                Arquivos Selecionados ({files.length})
-              </Typography>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Typography variant="h6">
+                  Arquivos Selecionados ({files.length})
+                </Typography>
+                <Chip
+                  label={`${(files.reduce((acc, f) => acc + f.size, 0) / 1024 / 1024).toFixed(2)} MB`}
+                  color="primary"
+                  variant="outlined"
+                />
+              </Box>
+
+              {uploading && (
+                <Box mb={2}>
+                  <LinearProgress variant="determinate" value={uploadProgress.total || 0} />
+                  <Typography variant="caption" align="center" display="block" mt={1}>
+                    Progresso: {uploadProgress.total || 0}%
+                  </Typography>
+                </Box>
+              )}
+
               <List>
                 {files.map((file, index) => (
                   <ListItem key={index}>
+                    <ListItemIcon>
+                      <CloudUploadIcon color="primary" />
+                    </ListItemIcon>
                     <ListItemText
                       primary={file.name}
                       secondary={`${(file.size / 1024).toFixed(2)} KB`}
@@ -244,8 +281,9 @@ export default function Upload() {
                       edge="end"
                       onClick={() => removeFile(index)}
                       disabled={uploading}
+                      size="small"
                     >
-                      <DeleteIcon />
+                      <ClearIcon />
                     </IconButton>
                   </ListItem>
                 ))}
@@ -257,18 +295,39 @@ export default function Upload() {
                   color="primary"
                   onClick={handleUpload}
                   disabled={uploading || files.length === 0}
-                  startIcon={uploading ? <CircularProgress size={20} /> : null}
+                  startIcon={uploading ? <CircularProgress size={20} /> : <CloudUploadIcon />}
+                  size="large"
                 >
-                  {uploading ? 'Enviando...' : 'Enviar Arquivos'}
+                  {uploading ? `Enviando... ${uploadProgress.total || 0}%` : 'Enviar Arquivos'}
                 </Button>
                 <Button
                   variant="outlined"
+                  color="primary"
+                  onClick={() => document.getElementById('file-input-add').click()}
+                  disabled={uploading}
+                  startIcon={<AddIcon />}
+                  size="large"
+                >
+                  Adicionar Mais
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
                   onClick={() => setFiles([])}
                   disabled={uploading}
+                  startIcon={<ClearIcon />}
+                  size="large"
                 >
-                  Limpar
+                  Limpar Todos
                 </Button>
               </Box>
+              <input
+                type="file"
+                multiple
+                onChange={handleChange}
+                className={classes.input}
+                id="file-input-add"
+              />
             </Box>
           </Paper>
         )}
@@ -276,9 +335,17 @@ export default function Upload() {
         {uploadedFiles.length > 0 && (
           <Paper className={classes.fileList}>
             <Box p={2}>
-              <Typography variant="h6" gutterBottom>
-                Arquivos Enviados
-              </Typography>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Typography variant="h6">
+                  Arquivos Enviados ({uploadedFiles.length})
+                </Typography>
+                <Chip
+                  label="Concluído"
+                  icon={<CheckCircleIcon />}
+                  color="primary"
+                  variant="outlined"
+                />
+              </Box>
               <List>
                 {uploadedFiles.map((file, index) => (
                   <ListItem key={index}>
