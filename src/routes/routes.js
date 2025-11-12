@@ -11,6 +11,7 @@ import ModulosVideo from "../pages/ModulosVideo";
 import MaterialDidatico from "../pages/MaterilaDidatico"
 import Escolas from "../pages/Escolas";
 import Anucios from "../pages/Anucios/index"
+import Upload from "../pages/Upload"
 
 import {useAuth} from '../context/auth';
 // Janelas secumdarias
@@ -37,6 +38,7 @@ export default function Routes(){
                 <Route path="/MaterialDidatico" exact component={MaterialDidatico}/>
                 <Route path="/escolas" exact component={Escolas}/>
                 <Route path="/anucios" exact component={Anucios}/>
+                <Route path="/upload" exact component={Upload}/>
 
                 <Route path="/vertemas" exact component={VerThema}/>
                 <Route path="/vermodulos" exact component={VerModulo}/>

@@ -11,6 +11,7 @@ import SchoolIcon from '@material-ui/icons/School';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { useHistory,useParams } from 'react-router-dom';
 
 import {useAuth} from '../context/auth';
@@ -82,6 +83,12 @@ export default function Chart() {
                   <OndemandVideoIcon  />
                 </ListItemIcon>
                 <ListItemText primary="Material Didatico" />
+              </ListItem>
+              <ListItem button onClick={() => history.push("upload")}>
+                <ListItemIcon>
+                  <CloudUploadIcon  />
+                </ListItemIcon>
+                <ListItemText primary="Upload Arquivos" />
               </ListItem>
             </div>
       ):(
