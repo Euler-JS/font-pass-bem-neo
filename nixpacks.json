@@ -1,18 +1,18 @@
 {
-  "providers": ["node"],
+  "providers": [],
   "phases": {
     "setup": {
-      "nixPkgs": ["nodejs", "npm"],
+      "nixPkgs": ["nodejs", "nginx"],
       "aptPkgs": []
     },
     "install": {
       "cmds": ["npm ci"]
     },
     "build": {
-      "cmds": ["npm run build"]
+      "cmds": ["npm run build", "cp -r build /build", "cp nginx.conf /etc/nginx/conf.d/default.conf"]
     }
   },
   "start": {
-    "cmd": "npx serve -s build -l 80"
+    "cmd": "nginx -g 'daemon off;'"
   }
 }
