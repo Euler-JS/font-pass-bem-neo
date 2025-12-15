@@ -1,14 +1,31 @@
-FROM node:14-alpine
+# Build stage
+FROM node:18-alpine AS builder
 
-WORKDIR /usr/web
+WORKDIR /app
 
-COPY package.json  ./
+# Copy package files
+COPY package*.json ./
 
-RUN yarn
+# Install dependencies
+RUN npm ci
 
+# Copy source code
+COPY . .
 
-COPY . . 
+# Build the application
+RUN npm run build
 
-EXPOSE 3000
+# Production stage
+FROM nginx:alpine
 
-CMD [ "yarn", "start" ]
+# Copy built files from builder stage
+COPY --from=builder /app/build /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
