@@ -10,9 +10,7 @@ const api = axios.create({
     // baseURL: "https://server.manna.software/",
     // Em desenvolvimento, usa o proxy configurado no package.json
     // Em produção, usa a URL completa da API
-    baseURL: process.env.NODE_ENV === 'production' 
-        ? "http://mowosocw4sgwsk84kw4ks40c.62.171.183.132.sslip.io/"
-        : "/",
+    baseURL:"http://mowosocw4sgwsk84kw4ks40c.62.171.183.132.sslip.io/",
 
 })
 
