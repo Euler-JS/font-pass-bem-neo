@@ -2,6 +2,7 @@
   "name": "font-pass-bem",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://passebemmoz-oss.github.io/front-web",
   "dependencies": {
     "@coreui/icons-react": "^1.1.0",
     "@coreui/react": "^4.0.0-alpha.2",
