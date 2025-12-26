@@ -62,8 +62,9 @@ export default function EditMaterial({Status, Restart, materialData, onUpdate}) 
 
     // Preencher os dados quando o material for carregado
     useEffect(() => {
-        if(materialData && Status) {
+        if(materialData && Status && modulos.length > 0) {
             console.log("Material carregado:", materialData);
+            console.log("Módulos disponíveis:", modulos);
             
             setnome(materialData.name || "")
             setpages(materialData.pages ? materialData.pages.toString() : "")
@@ -81,12 +82,25 @@ export default function EditMaterial({Status, Restart, materialData, onUpdate}) 
                 setCategoria(cats);
             }
             
-            // Preencher módulos selecionados
-            if(materialData.modulos && Array.isArray(materialData.modulos)) {
-                setPartilhadas(materialData.modulos);
+            // Preencher módulos selecionados - CORRIGIDO
+            if(materialData.modulos && Array.isArray(materialData.modulos) && materialData.modulos.length > 0) {
+                console.log("Módulos do material:", materialData.modulos);
+                
+                // Se os módulos vierem como IDs (strings), buscar os objetos completos
+                const modulosSelecionados = materialData.modulos.map(modulo => {
+                    // Se já é um objeto, retorna ele
+                    if(typeof modulo === 'object' && modulo._id) {
+                        return modulo;
+                    }
+                    // Se é um ID (string), busca o objeto correspondente
+                    return modulos.find(m => m._id === modulo);
+                }).filter(Boolean);
+                
+                console.log("Módulos selecionados após busca:", modulosSelecionados);
+                setPartilhadas(modulosSelecionados);
             }
         }
-    }, [materialData, Status])
+    }, [materialData, Status, modulos])
 
     function Clear(){
         setnome("")
