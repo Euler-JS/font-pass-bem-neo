@@ -17,7 +17,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import SendIcon from '@material-ui/icons/Edit';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import Title from "../Title"
 
@@ -100,7 +101,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-export default function CustomPaginationActionsTable({data, Detalhes}) {
+export default function CustomPaginationActionsTable({data, Detalhes, onEdit, onDelete}) {
   const classes = useStyles2();
   const history = useHistory()
 
@@ -125,6 +126,12 @@ export default function CustomPaginationActionsTable({data, Detalhes}) {
     setPage(0);
   };
 
+  const handleDelete = async (material) => {
+    if(window.confirm(`Tem certeza que deseja excluir o material "${material.name}"?`)) {
+      if(onDelete) onDelete(material);
+    }
+  };
+
 
   
 
@@ -138,7 +145,7 @@ export default function CustomPaginationActionsTable({data, Detalhes}) {
             <TableCell>Ficheiro</TableCell>
             <TableCell>Nome</TableCell>
             <TableCell>Categorias</TableCell>
-            <TableCell align="right">Editar</TableCell>
+            <TableCell align="right">Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -150,7 +157,22 @@ export default function CustomPaginationActionsTable({data, Detalhes}) {
               <TableCell><AssignmentIcon /></TableCell>
               <TableCell>{row?.name}</TableCell>
               <TableCell>{row?.categoria}</TableCell>
-              <TableCell align="right">{/* <SendIcon id="edit" onClick={() => Navigate(row)}/> */}</TableCell>
+              <TableCell align="right">
+                <IconButton 
+                  color="primary" 
+                  onClick={() => onEdit && onEdit(row)}
+                  title="Editar material"
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton 
+                  color="secondary" 
+                  onClick={() => handleDelete(row)}
+                  title="Excluir material"
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
 

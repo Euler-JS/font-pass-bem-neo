@@ -27,6 +27,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Orders from './Orders';
 
 import AddMaterial from "../../components/AddMaterial";
+import EditMaterial from "../../components/EditMaterial";
 
 import Chart from './Chart';
 
@@ -153,8 +154,10 @@ export default function Dashboard() {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   const [Statusnew, setStatusnew] = useState(false);
+  const [StatusEdit, setStatusEdit] = useState(false);
   const [StatusTheme, setStatusTheme] = useState(false)
   const [materil, setMaterial] = useState([])
+  const [selectedMaterial, setSelectedMaterial] = useState(null)
 
 
   React.useEffect(() => {
@@ -166,9 +169,40 @@ export default function Dashboard() {
       }catch{}
     }
 
-      if(!Statusnew)AllMaterial()
+      if(!Statusnew && !StatusEdit)AllMaterial()
     
-  }, [Statusnew])
+  }, [Statusnew, StatusEdit])
+
+  const handleEdit = (material) => {
+    setSelectedMaterial(material);
+    setStatusEdit(true);
+  }
+
+  const handleDelete = async (material) => {
+    try {
+      const response = await api.delete(`/material/${material._id}`, {
+        headers:{
+          user: "60ca205793351fb15cadd10e",
+        }
+      });
+      alert(response.data.message || "Material excluído com sucesso!");
+      // Recarregar a lista
+      const materialsResponse = await api.get("/material");
+      setMaterial(materialsResponse?.data?.value);
+    } catch(error) {
+      alert(error?.response?.data?.message || error?.message || "Erro ao excluir material");
+    }
+  }
+
+  const handleUpdate = async () => {
+    // Recarregar a lista após atualização
+    try {
+      const response = await api.get("/material");
+      setMaterial(response?.data?.value);
+    } catch(error) {
+      console.error("Erro ao recarregar materiais:", error);
+    }
+  }
 
   
 
@@ -218,6 +252,12 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
 
         <AddMaterial Status={Statusnew}  Restart={(props) => setStatusnew(props)}/>
+        <EditMaterial 
+          Status={StatusEdit} 
+          Restart={(props) => setStatusEdit(props)} 
+          materialData={selectedMaterial}
+          onUpdate={handleUpdate}
+        />
 
         <Container maxWidth="lg" className={classes.container}>
 
@@ -239,7 +279,13 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12} md={8} lg={9}>
               
-                <Orders StatusTheme={StatusTheme} data={materil} Detalhes={Detalhes}/>
+                <Orders 
+                  StatusTheme={StatusTheme} 
+                  data={materil} 
+                  Detalhes={Detalhes}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
               
             </Grid>
             {/* Chart */}

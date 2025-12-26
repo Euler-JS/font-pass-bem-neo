@@ -12,6 +12,7 @@ import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import { useHistory,useParams } from 'react-router-dom';
 
 import {useAuth} from '../context/auth';
@@ -89,6 +90,12 @@ export default function Chart() {
                   <CloudUploadIcon  />
                 </ListItemIcon>
                 <ListItemText primary="Upload Arquivos" />
+              </ListItem>
+              <ListItem button onClick={() => history.push("delete-perguntas")}>
+                <ListItemIcon>
+                  <DeleteSweepIcon  />
+                </ListItemIcon>
+                <ListItemText primary="Delete Perguntas" />
               </ListItem>
             </div>
       ):(
