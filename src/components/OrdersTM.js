@@ -19,6 +19,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import SendIcon from '@material-ui/icons/RemoveRedEye';
 import InfoIcon from '@material-ui/icons/Info';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import Title from "../pages/Title"
 
@@ -101,7 +103,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-export default function CustomPaginationActionsTable({data, Detalhes}) {
+export default function CustomPaginationActionsTable({data, Detalhes, onEdit, onDelete}) {
   const classes = useStyles2();
   const history = useHistory()
 
@@ -136,7 +138,9 @@ export default function CustomPaginationActionsTable({data, Detalhes}) {
             <TableCell>{Detalhes[0]}</TableCell>
             <TableCell>{Detalhes[1]}</TableCell>
             <TableCell>{Detalhes[2]}</TableCell>
+            <TableCell align="right">Ver</TableCell>
             <TableCell align="right">Editar</TableCell>
+            <TableCell align="right">Excluir</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -149,7 +153,25 @@ export default function CustomPaginationActionsTable({data, Detalhes}) {
               <TableCell>{row.nome}</TableCell>
               <TableCell>{row.numero}</TableCell>
               <TableCell button>{row.descricao}</TableCell>
-              <TableCell align="right"><SendIcon id="edit" onClick={() => Navigate(row)}/></TableCell>
+              <TableCell align="right">
+                <IconButton onClick={() => Navigate(row)} size="small">
+                  <SendIcon />
+                </IconButton>
+              </TableCell>
+              <TableCell align="right">
+                {onEdit && (
+                  <IconButton onClick={() => onEdit(row)} size="small" color="primary">
+                    <EditIcon />
+                  </IconButton>
+                )}
+              </TableCell>
+              <TableCell align="right">
+                {onDelete && (
+                  <IconButton onClick={() => onDelete(row)} size="small" color="secondary">
+                    <DeleteIcon />
+                  </IconButton>
+                )}
+              </TableCell>
             </TableRow>
           ))}
 

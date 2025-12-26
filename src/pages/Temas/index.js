@@ -37,6 +37,7 @@ import Chart from './Chart';
 import Orders from '../../components/OrdersTM';
 
 import ADDTEMA from "../../components/AddTema";
+import EDITTEMA from "../../components/EditTema";
 
 import { Avatar } from '@material-ui/core';
 
@@ -151,10 +152,49 @@ export default function Dashboard() {
 
   const [StatusTheme, setStatusTheme] = useState(false)
   const [temas, settemas] = useState([])
+  const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [selectedTema, setSelectedTema] = useState(null)
 
   function Cancelar(status){
 
     setStatusTheme(status)
+  }
+
+  function handleEditTema(tema) {
+    setSelectedTema(tema);
+    setEditDialogOpen(true);
+  }
+
+  async function handleDeleteTema(tema) {
+    if (window.confirm(`Tem certeza que deseja excluir o tema "${tema.nome}"?`)) {
+      try {
+        await api.delete(`temas/${tema._id}`, {
+          headers: {
+            user: "60b8c16965472a2b1c2e7a32",
+          }
+        });
+        alert("Tema excluído com sucesso!");
+        // Atualizar lista de temas
+        const response = await api.get("temas", {
+          headers: {
+            user: "60b8c16965472a2b1c2e7a32",
+          }
+        });
+        settemas(response.data);
+      } catch (error) {
+        alert(error.response?.data || "Erro ao excluir tema");
+      }
+    }
+  }
+
+  async function handleUpdateTemas() {
+    // Recarregar a lista de temas após edição
+    const response = await api.get("temas", {
+      headers: {
+        user: "60b8c16965472a2b1c2e7a32",
+      }
+    });
+    settemas(response.data);
   }
 
   
@@ -220,6 +260,12 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
 
         <ADDTEMA StatusTheme={StatusTheme} CancelarS={ (props) => Cancelar(props)}/>
+        <EDITTEMA 
+          open={editDialogOpen} 
+          onClose={() => setEditDialogOpen(false)} 
+          tema={selectedTema}
+          onUpdate={handleUpdateTemas}
+        />
         <Container maxWidth="lg" className={classes.container}>
 
           
@@ -241,7 +287,13 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12} md={8} lg={9}>
               
-                <Orders StatusTheme={StatusTheme} data={temas} Detalhes={Detalhes}/>
+                <Orders 
+                  StatusTheme={StatusTheme} 
+                  data={temas} 
+                  Detalhes={Detalhes}
+                  onEdit={handleEditTema}
+                  onDelete={handleDeleteTema}
+                />
               
             </Grid>
             {/* Recent Students*/}
