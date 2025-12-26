@@ -25,6 +25,39 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  tableContainer: {
+    borderRadius: 12,
+    boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+  },
+  tableHead: {
+    backgroundColor: '#3f51b5',
+    '& th': {
+      color: '#fff',
+      fontWeight: 600,
+      fontSize: '0.95rem',
+    },
+  },
+  tableRow: {
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      backgroundColor: '#f5f7ff',
+      transform: 'scale(1.01)',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    },
+  },
+  iconButton: {
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      transform: 'scale(1.2)',
+      cursor: 'pointer',
+    },
+  },
+  editButton: {
+    color: '#ff9800',
+    '&:hover': {
+      color: '#f57c00',
+    },
+  },
 }));
 
 export default function Orders({StatusTheme}) {
@@ -72,8 +105,8 @@ export default function Orders({StatusTheme}) {
       <EdditQuetion datas ={data} Status={status} CancelarS={(props) => Cancelar(props)}/>
 
       <Title>Lista de questões disponíveis</Title>
-      <Table size="small">
-        <TableHead>
+      <Table size="small" className={classes.tableContainer}>
+        <TableHead className={classes.tableHead}>
           <TableRow>
             <TableCell></TableCell>
             <TableCell>Questão</TableCell>
@@ -82,10 +115,15 @@ export default function Orders({StatusTheme}) {
         </TableHead>
         <TableBody>
           {Questoes.map((row) => (
-            <TableRow key={row._id}>
-              <TableCell><InsertDriveFileIcon /></TableCell>
+            <TableRow key={row._id} className={classes.tableRow}>
+              <TableCell><InsertDriveFileIcon style={{color: '#667eea'}} /></TableCell>
               <TableCell>{row.questao}</TableCell>
-              <TableCell align="right"><EditIcon id="edit" onClick={() => EditarP(row)}/></TableCell>
+              <TableCell align="right">
+                <EditIcon 
+                  className={`${classes.iconButton} ${classes.editButton}`} 
+                  onClick={() => EditarP(row)}
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

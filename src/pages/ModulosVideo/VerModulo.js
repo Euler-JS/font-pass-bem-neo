@@ -68,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   appBar: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    boxShadow: '0 4px 20px 0 rgba(0,0,0,0.1)',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -92,6 +94,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   drawerPaper: {
+    background: 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
+    color: '#fff',
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
@@ -99,6 +103,9 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    '& .MuiListItemIcon-root': {
+      color: '#fff',
+    },
   },
   drawerPaperClose: {
     overflowX: 'hidden',
@@ -113,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
+    backgroundColor: '#f5f7ff',
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
@@ -122,10 +130,17 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    borderRadius: 12,
+    boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+      transform: 'translateY(-2px)',
+    },
   },
   fixedHeight: {
     height: 240,
@@ -158,6 +173,43 @@ export default function Dashboard() {
   return (
     <div className={classes.root}>
       <CssBaseline />
+      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+            {Modulonome}
+          </Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose} style={{color: '#fff'}}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <List><LlistItems /></List>
+        <Divider />
+      </Drawer>
       
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

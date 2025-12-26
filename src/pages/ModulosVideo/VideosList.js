@@ -26,6 +26,39 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  tableContainer: {
+    borderRadius: 12,
+    boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+  },
+  tableHead: {
+    backgroundColor: '#3f51b5',
+    '& th': {
+      color: '#fff',
+      fontWeight: 600,
+      fontSize: '0.95rem',
+    },
+  },
+  tableRow: {
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      backgroundColor: '#f5f7ff',
+      transform: 'scale(1.01)',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    },
+  },
+  iconButton: {
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      transform: 'scale(1.2)',
+      cursor: 'pointer',
+    },
+  },
+  editButton: {
+    color: '#ff9800',
+    '&:hover': {
+      color: '#f57c00',
+    },
+  },
 }));
 
 export default function Orders(Status) {
@@ -71,8 +104,8 @@ export default function Orders(Status) {
     <React.Fragment>
     <EditVideo Status={status} CancelarS={(props) => Cancel(props)} datas ={data} />
       <Title>Lista de vídeo aulas disponíveis</Title>
-      <Table size="small">
-        <TableHead>
+      <Table size="small" className={classes.tableContainer}>
+        <TableHead className={classes.tableHead}>
           <TableRow>
             <TableCell></TableCell>
             <TableCell>Vídeo Aulas</TableCell>
@@ -82,11 +115,16 @@ export default function Orders(Status) {
         </TableHead>
         <TableBody>
           {videoaulas.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell><VideocamIcon /></TableCell>
+            <TableRow key={row.id} className={classes.tableRow}>
+              <TableCell><VideocamIcon style={{color: '#667eea'}} /></TableCell>
               <TableCell>{row.titulo}</TableCell>
               <TableCell button>{row.descricao}</TableCell>
-              <TableCell align="right"><EditIcon id="edit" onClick={() => Edit(row)}/></TableCell>
+              <TableCell align="right">
+                <EditIcon 
+                  className={`${classes.iconButton} ${classes.editButton}`} 
+                  onClick={() => Edit(row)}
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
