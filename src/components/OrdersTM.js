@@ -21,6 +21,7 @@ import SendIcon from '@material-ui/icons/RemoveRedEye';
 import InfoIcon from '@material-ui/icons/Info';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import Title from "../pages/Title"
 
@@ -101,6 +102,13 @@ const useStyles2 = makeStyles({
   table: {
     minWidth: 500,
   },
+  descricaoCell: {
+    maxWidth: 300,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    cursor: 'help',
+  },
 });
 
 export default function CustomPaginationActionsTable({data, Detalhes, onEdit, onDelete}) {
@@ -128,6 +136,12 @@ export default function CustomPaginationActionsTable({data, Detalhes, onEdit, on
     setPage(0);
   };
 
+  const truncateText = (text, maxLength = 80) => {
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  };
+
   return (
     <TableContainer component={Paper}>
     <Title>{Detalhes[3]}</Title>
@@ -152,7 +166,11 @@ export default function CustomPaginationActionsTable({data, Detalhes, onEdit, on
               <TableCell><AssignmentIcon /></TableCell>
               <TableCell>{row.nome}</TableCell>
               <TableCell>{row.numero}</TableCell>
-              <TableCell button>{row.descricao}</TableCell>
+              <TableCell className={classes.descricaoCell}>
+                <Tooltip title={row.descricao || ''} placement="top" arrow>
+                  <span>{truncateText(row.descricao)}</span>
+                </Tooltip>
+              </TableCell>
               <TableCell align="right">
                 <IconButton onClick={() => Navigate(row)} size="small">
                   <SendIcon />

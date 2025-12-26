@@ -285,7 +285,7 @@ export default function Dashboard() {
           <Grid container spacing={3}>
               
             {/* Recent Orders */}
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12}>
               
                 <Orders 
                   StatusTheme={StatusTheme} 
@@ -297,7 +297,7 @@ export default function Dashboard() {
               
             </Grid>
             {/* Recent Students*/}
-            <Grid item xs={12} md={8} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <Paper className={classes.paper}>
                 <Title>Acessos por Tema</Title>
                 <Chart/>                
