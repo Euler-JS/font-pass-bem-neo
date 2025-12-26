@@ -215,13 +215,13 @@ export default function Dashboard() {
           <Grid container spacing={2}>
 
             {/* Recent Orders */}
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Orders Status={Statusnew}/>
               </Paper>
             </Grid>
             {/* Chart */}
-            <Grid item xs={12} md={8} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <Paper className={classes.paper}>
                 <Title>Escolas</Title>
                 <Chart/>

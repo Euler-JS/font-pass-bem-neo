@@ -244,11 +244,11 @@ export default function Dashboard({history}) {
           <Grid container spacing={3}>
               
             {/* Recent Orders */}
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12}>
                 <Orders StatusTheme={StatusAddModulo} data={modulos} Detalhes={Detalhes}/>
             </Grid>
             {/* Recent Students*/}
-            <Grid item xs={12} md={8} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <Paper className={classes.paper}>
                 <Title>Acessos por Modulo</Title>
                 <Chart/>                

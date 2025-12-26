@@ -245,13 +245,13 @@ export default function Estudantes() {
           <Grid container spacing={2}>
 
             {/* Recent Orders */}
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Orders data={estudantes?.estudantes||[]} change={e => setEstudantes(e)} />
               </Paper>
             </Grid>
             {/* Chart */}
-            <Grid item xs={12} md={8} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <Paper className={classes.paper}>
                 <Title>Categoria de Formação</Title>
                 <Chart/>

@@ -308,13 +308,13 @@ export default function Dashboard() {
               </Paper>
             </Grid>
             {/* Recent Orders */}
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Orders value={dasboardata?.compras} />
               </Paper>
             </Grid>
             {/* Recent Students*/}
-            <Grid item xs={12} md={8} lg={3}>
+            <Grid item xs={12} md={6} lg={4}>
               <Paper className={classes.paper}>
                 <Title>Estudantes Recentes</Title>
                 {
