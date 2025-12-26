@@ -174,6 +174,7 @@ export default function Dashboard() {
   }, [Statusnew, StatusEdit])
 
   const handleEdit = (material) => {
+    console.log("Editando material:", material);
     setSelectedMaterial(material);
     setStatusEdit(true);
   }

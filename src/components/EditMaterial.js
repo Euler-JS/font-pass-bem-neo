@@ -2,7 +2,6 @@ import React, {useState, useMemo, useEffect} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -49,17 +48,36 @@ export default function EditMaterial({Status, Restart, materialData, onUpdate}) 
 
     const [statusV, setstatusV] = useState(false)
 
+    // Limpar estados quando fechar
+    useEffect(() => {
+        if (!Status) {
+            setnome("")
+            setpages("")
+            setfoto(null)
+            setCategoria([])
+            setPartilhadas([])
+            setstatusV(false)
+        }
+    }, [Status])
+
     // Preencher os dados quando o material for carregado
     useEffect(() => {
         if(materialData && Status) {
+            console.log("Material carregado:", materialData);
+            
             setnome(materialData.name || "")
-            setpages(materialData.pages || "")
+            setpages(materialData.pages ? materialData.pages.toString() : "")
             
             // Preencher categorias selecionadas
             if(materialData.categoria) {
-                const cats = materialData.categoria.split(',').map(cat => 
-                    categorias.find(c => c.name === cat.trim())
-                ).filter(Boolean);
+                const catArray = typeof materialData.categoria === 'string' 
+                    ? materialData.categoria.split(',') 
+                    : materialData.categoria;
+                    
+                const cats = catArray.map(cat => {
+                    const catName = typeof cat === 'string' ? cat.trim() : cat;
+                    return categorias.find(c => c.name === catName);
+                }).filter(Boolean);
                 setCategoria(cats);
             }
             
@@ -83,21 +101,33 @@ export default function EditMaterial({Status, Restart, materialData, onUpdate}) 
   
   const previwImg = useMemo(() => {
       if(foto) return URL.createObjectURL(foto)
-      if(materialData?.imagem) return materialData.imagem
+      // Se materialData tem imagem, tenta construir a URL completa
+      if(materialData?.imagem) {
+          // Se a imagem já for uma URL completa, usa ela
+          if(materialData.imagem.startsWith('http')) {
+              return materialData.imagem;
+          }
+          // Caso contrário, tenta construir a URL da API
+          return `http://localhost:3334/files/${materialData.imagem}`;
+      }
       return null
   },[foto, materialData])
 
   useEffect(() => {
     async function GetModulos(){
-        const response = await api.get("modulos",{
-            headers:{
-              user: "60b6aff95361df172869306b",
-            }
-          })
-          setmodulos(response.data)
-         
+        try {
+            const response = await api.get("modulos",{
+                headers:{
+                  user: "60b6aff95361df172869306b",
+                }
+              })
+              setmodulos(response.data || [])
+        } catch(error) {
+            console.error("Erro ao carregar módulos:", error);
+            setmodulos([])
+        }
     }
-    if(Status)GetModulos()
+    if(Status) GetModulos()
     
   },[Status])
 
@@ -155,9 +185,9 @@ export default function EditMaterial({Status, Restart, materialData, onUpdate}) 
     <React.Fragment>
         <ProgressCircle Status={progress}/>
       <div>
-        <Dialog open={Status }  aria-labelledby="form-dialog-title">
+        <Dialog open={Status && materialData !== null}  aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title" style={{alignSelf:"center"}}>Editar Material</DialogTitle>
-                <Avatar style={{alignSelf:"center", opacity:1}} src={previwImg} className={classes.large}/>
+                <Avatar style={{alignSelf:"center", opacity:1}} src={previwImg || undefined} className={classes.large}/>
                 <label id="perfil" 
                     className={foto?.filename ? "temfoto": ""}
                 >
