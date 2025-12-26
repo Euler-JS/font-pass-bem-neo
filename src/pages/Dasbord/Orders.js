@@ -23,6 +23,24 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  tableHead: {
+    backgroundColor: '#3f51b5',
+    '& .MuiTableCell-head': {
+      color: '#ffffff',
+      fontWeight: 600,
+      fontSize: '0.95rem',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+    },
+  },
+  tableRow: {
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#f5f7ff',
+      transform: 'scale(1.001)',
+      boxShadow: '0 2px 8px rgba(63, 81, 181, 0.1)',
+    },
+  },
 }));
 
 export default function Orders({value}) {
@@ -49,7 +67,7 @@ export default function Orders({value}) {
     <React.Fragment>
       <Title>Compras Recentes</Title>
       <Table size="small">
-        <TableHead>
+        <TableHead className={classes.tableHead}>
           <TableRow>
             <TableCell>Data</TableCell>
             <TableCell>Nome</TableCell>
@@ -60,7 +78,7 @@ export default function Orders({value}) {
         </TableHead>
         <TableBody>
           {rowsT?.slice(0,4).map((row) => (
-            <TableRow key={row?._id}>
+            <TableRow key={row?._id} className={classes.tableRow}>
               <TableCell>{row?.inscricao.slice(0,10)}</TableCell>
               <TableCell>{row?.user?.numero}</TableCell>
               <TableCell>{row?.pacote}</TableCell>

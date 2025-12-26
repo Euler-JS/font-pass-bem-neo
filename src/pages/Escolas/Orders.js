@@ -32,6 +32,24 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  tableHead: {
+    backgroundColor: '#3f51b5',
+    '& .MuiTableCell-head': {
+      color: '#ffffff',
+      fontWeight: 600,
+      fontSize: '0.95rem',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+    },
+  },
+  tableRow: {
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#f5f7ff',
+      transform: 'scale(1.001)',
+      boxShadow: '0 2px 8px rgba(63, 81, 181, 0.1)',
+    },
+  },
 }));
 
 export default function Orders({Status}) {
@@ -67,7 +85,7 @@ export default function Orders({Status}) {
       </div>
 
       <Table size="small">
-        <TableHead>
+        <TableHead className={classes.tableHead}>
           <TableRow>
             <TableCell>Nome</TableCell>
             <TableCell>Província</TableCell>
@@ -77,7 +95,7 @@ export default function Orders({Status}) {
         </TableHead>
         <TableBody>
           {DataProf.map((escola) => (
-            <TableRow key={escola?._id}>
+            <TableRow key={escola?._id} className={classes.tableRow}>
               <TableCell>{escola?.nome}</TableCell>
               <TableCell>{escola?.provincia}</TableCell>
               <TableCell>{escola?.distrito}</TableCell>

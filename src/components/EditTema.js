@@ -6,11 +6,60 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
 
 import api from "../services/api";
 import ProgressCircle from "./ProgressCircle";
 
+const useStyles = makeStyles((theme) => ({
+  dialog: {
+    '& .MuiDialog-paper': {
+      borderRadius: 16,
+      padding: theme.spacing(1),
+    },
+  },
+  dialogTitle: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: 'white',
+    borderRadius: '12px 12px 0 0',
+    marginTop: -8,
+    marginLeft: -8,
+    marginRight: -8,
+    padding: theme.spacing(2.5),
+  },
+  textField: {
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 10,
+      '&:hover fieldset': {
+        borderColor: '#667eea',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#667eea',
+      },
+    },
+  },
+  cancelButton: {
+    borderRadius: 8,
+    padding: '8px 24px',
+    textTransform: 'none',
+    fontWeight: 600,
+  },
+  submitButton: {
+    borderRadius: 8,
+    padding: '8px 24px',
+    textTransform: 'none',
+    fontWeight: 600,
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: 'white',
+    '&:hover': {
+      background: 'linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%)',
+    },
+  },
+}));
+
 export default function EditTema({open, onClose, tema, onUpdate}) {
+
+  const classes = useStyles();
 
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
@@ -60,11 +109,11 @@ export default function EditTema({open, onClose, tema, onUpdate}) {
     <React.Fragment>
       <ProgressCircle Status={progress}/>
       <div>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Editar Tema</DialogTitle>
+        <Dialog open={open} onClose={handleClose} className={classes.dialog} aria-labelledby="form-dialog-title" maxWidth="sm" fullWidth>
+          <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>Editar Tema</DialogTitle>
           
-          <DialogContent>
-            <DialogContentText>
+          <DialogContent style={{paddingTop: 24}}>
+            <DialogContentText style={{marginBottom: 16, color: '#666'}}>
               Atualize o nome e descrição do tema
             </DialogContentText>
             <TextField
@@ -73,9 +122,11 @@ export default function EditTema({open, onClose, tema, onUpdate}) {
               id="nome"
               label="Nome do Tema"
               fullWidth
+              variant="outlined"
               value={nome}
               onChange={e => setNome(e.target.value)}
               error={nome.length < 1 && status === true}
+              className={classes.textField}
             />
 
             <TextField
@@ -84,16 +135,19 @@ export default function EditTema({open, onClose, tema, onUpdate}) {
               label="Descrição do Tema"
               fullWidth
               multiline
+              rows={4}
+              variant="outlined"
               value={descricao}
               onChange={e => setDescricao(e.target.value)}
               error={descricao.length < 1 && status === true}
+              className={classes.textField}
             />
           </DialogContent>
-          <DialogActions>
-            <Button color="primary" onClick={handleClose}>
+          <DialogActions style={{padding: '16px 24px'}}>
+            <Button className={classes.cancelButton} onClick={handleClose}>
               Cancelar
             </Button>
-            <Button color="primary" onClick={handleUpdate}>
+            <Button className={classes.submitButton} onClick={handleUpdate}>
               Atualizar
             </Button>
           </DialogActions>

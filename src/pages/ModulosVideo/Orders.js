@@ -25,6 +25,24 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  tableHead: {
+    backgroundColor: '#3f51b5',
+    '& .MuiTableCell-head': {
+      color: '#ffffff',
+      fontWeight: 600,
+      fontSize: '0.95rem',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+    },
+  },
+  tableRow: {
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#f5f7ff',
+      transform: 'scale(1.001)',
+      boxShadow: '0 2px 8px rgba(63, 81, 181, 0.1)',
+    },
+  },
 }));
 
 export default function Orders({}) {
@@ -62,7 +80,7 @@ export default function Orders({}) {
     <React.Fragment>
       <Title>Módulos Presentes</Title>
       <Table size="small">
-        <TableHead>
+        <TableHead className={classes.tableHead}>
           <TableRow>
             <TableCell></TableCell>
             <TableCell>Módulo</TableCell>
@@ -73,7 +91,7 @@ export default function Orders({}) {
         </TableHead>
         <TableBody>
           {modulos.map((row) => (
-            <TableRow key={row._id}>
+            <TableRow key={row._id} className={classes.tableRow}>
               <TableCell><AssignmentIcon /></TableCell>
               <TableCell>{row.titulo}</TableCell>
               <TableCell>{row.shipTo}</TableCell>

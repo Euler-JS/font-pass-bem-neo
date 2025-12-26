@@ -77,6 +77,8 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -103,6 +105,14 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    background: 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
+    color: 'white',
+    '& .MuiListItemIcon-root': {
+      color: 'white',
+    },
+    '& .MuiListItem-button:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
   },
   drawerPaperClose: {
     overflowX: 'hidden',
@@ -120,6 +130,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
+    backgroundColor: '#f5f7ff',
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -130,9 +141,28 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    borderRadius: 12,
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
+      transform: 'translateY(-2px)',
+    },
   },
   fixedHeight: {
     height: 240,
+  },
+  addButton: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: 'white',
+    borderRadius: 12,
+    padding: theme.spacing(2),
+    boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 6px 25px rgba(102, 126, 234, 0.4)',
+    },
   },
 }));
 
@@ -270,13 +300,18 @@ export default function Dashboard() {
 
           
            <Grid container spacing={3}>
-                <Grid item xs={12} md={2} lg={3}>
-                    <Paper  style={{ display:"flex", justifyContent:"center"}}>
+                <Grid item xs={12} md={4} lg={3}>
+                    <Paper className={classes.addButton} elevation={0}>
                         <ListItem button onClick={() => setStatusTheme(true)}>
                             <ListItemIcon>
-                                <PostAddIcon />
+                                <PostAddIcon style={{color: 'white', fontSize: 28}}/>
                             </ListItemIcon>
-                            <ListItemText primary="Novo Tema" />
+                            <ListItemText 
+                              primary="Novo Tema" 
+                              primaryTypographyProps={{
+                                style: { fontWeight: 600, fontSize: '1.1rem' }
+                              }}
+                            />
                         </ListItem>
                     </Paper>
                 </Grid> 

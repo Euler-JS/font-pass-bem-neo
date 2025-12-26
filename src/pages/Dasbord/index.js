@@ -71,6 +71,8 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    boxShadow: '0 4px 20px rgba(102, 126, 234, 0.4)',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -97,6 +99,14 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    background: 'linear-gradient(180deg, #667eea 0%, #764ba2 100%)',
+    color: 'white',
+    '& .MuiListItemIcon-root': {
+      color: 'white',
+    },
+    '& .MuiListItem-button:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
   },
   drawerPaperClose: {
     overflowX: 'hidden',
@@ -114,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
+    backgroundColor: '#f5f7ff',
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -124,6 +135,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    borderRadius: 12,
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
+      transform: 'translateY(-2px)',
+    },
   },
   fixedHeight: {
     height: 240,

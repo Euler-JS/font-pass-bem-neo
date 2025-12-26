@@ -103,11 +103,34 @@ function createData(name, calories, fat) {
 }
 
 
-const useStyles2 = makeStyles({
+const useStyles2 = makeStyles((theme) => ({
   table: {
     minWidth: 500,
   },
-});
+  tableContainer: {
+    borderRadius: 12,
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+    overflow: 'hidden',
+  },
+  tableHead: {
+    backgroundColor: '#3f51b5',
+    '& .MuiTableCell-head': {
+      color: '#ffffff',
+      fontWeight: 600,
+      fontSize: '0.95rem',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+    },
+  },
+  tableRow: {
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#f5f7ff',
+      transform: 'scale(1.001)',
+      boxShadow: '0 2px 8px rgba(63, 81, 181, 0.1)',
+    },
+  },
+}));
 
 export default function CustomPaginationActionsTable({Status}) {
   const classes = useStyles2();
@@ -194,7 +217,7 @@ export default function CustomPaginationActionsTable({Status}) {
             ? DataProf.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : DataProf
           ).map((row) => (
-            <TableRow key={row._id}>
+            <TableRow key={row._id} className={classes.tableRow}>
              <TableCell><Avatar src={row?.imagem_url}/></TableCell>
               <TableCell>{row?.nome}</TableCell>
               <TableCell>{row?.empresa}</TableCell>

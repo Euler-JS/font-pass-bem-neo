@@ -98,7 +98,7 @@ function createData(name, calories, fat) {
 }
 
 
-const useStyles2 = makeStyles({
+const useStyles2 = makeStyles((theme) => ({
   table: {
     minWidth: 500,
   },
@@ -109,7 +109,45 @@ const useStyles2 = makeStyles({
     whiteSpace: 'nowrap',
     cursor: 'help',
   },
-});
+  tableContainer: {
+    borderRadius: 12,
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+    overflow: 'hidden',
+  },
+  tableHead: {
+    backgroundColor: '#3f51b5',
+    '& .MuiTableCell-head': {
+      color: '#ffffff',
+      fontWeight: 600,
+      fontSize: '0.95rem',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+    },
+  },
+  tableRow: {
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#f5f7ff',
+      transform: 'scale(1.001)',
+      boxShadow: '0 2px 8px rgba(63, 81, 181, 0.1)',
+    },
+  },
+  iconButton: {
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      transform: 'scale(1.15)',
+    },
+  },
+  viewButton: {
+    color: '#3f51b5',
+  },
+  editButton: {
+    color: '#4caf50',
+  },
+  deleteButton: {
+    color: '#f44336',
+  },
+}));
 
 export default function CustomPaginationActionsTable({data, Detalhes, onEdit, onDelete}) {
   const classes = useStyles2();
@@ -143,10 +181,10 @@ export default function CustomPaginationActionsTable({data, Detalhes, onEdit, on
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className={classes.tableContainer}>
     <Title>{Detalhes[3]}</Title>
       <Table className={classes.table} aria-label="custom pagination table">
-      <TableHead>
+      <TableHead className={classes.tableHead}>
           <TableRow>
           <TableCell/>
             <TableCell>{Detalhes[0]}</TableCell>
@@ -162,30 +200,30 @@ export default function CustomPaginationActionsTable({data, Detalhes, onEdit, on
             ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : data
           ).map((row) => (
-            <TableRow key={row._id}>
-              <TableCell><AssignmentIcon /></TableCell>
-              <TableCell>{row.nome}</TableCell>
-              <TableCell>{row.numero}</TableCell>
+            <TableRow key={row._id} className={classes.tableRow}>
+              <TableCell><AssignmentIcon style={{color: '#3f51b5'}}/></TableCell>
+              <TableCell style={{fontWeight: 500}}>{row.nome}</TableCell>
+              <TableCell><span style={{backgroundColor: '#e3f2fd', padding: '4px 12px', borderRadius: '12px', fontSize: '0.85rem', fontWeight: 600, color: '#1976d2'}}>{row.numero}</span></TableCell>
               <TableCell className={classes.descricaoCell}>
                 <Tooltip title={row.descricao || ''} placement="top" arrow>
                   <span>{truncateText(row.descricao)}</span>
                 </Tooltip>
               </TableCell>
               <TableCell align="right">
-                <IconButton onClick={() => Navigate(row)} size="small">
+                <IconButton onClick={() => Navigate(row)} size="small" className={`${classes.iconButton} ${classes.viewButton}`}>
                   <SendIcon />
                 </IconButton>
               </TableCell>
               <TableCell align="right">
                 {onEdit && (
-                  <IconButton onClick={() => onEdit(row)} size="small" color="primary">
+                  <IconButton onClick={() => onEdit(row)} size="small" className={`${classes.iconButton} ${classes.editButton}`}>
                     <EditIcon />
                   </IconButton>
                 )}
               </TableCell>
               <TableCell align="right">
                 {onDelete && (
-                  <IconButton onClick={() => onDelete(row)} size="small" color="secondary">
+                  <IconButton onClick={() => onDelete(row)} size="small" className={`${classes.iconButton} ${classes.deleteButton}`}>
                     <DeleteIcon />
                   </IconButton>
                 )}
