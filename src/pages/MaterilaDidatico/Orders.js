@@ -156,6 +156,7 @@ export default function CustomPaginationActionsTable({data, Detalhes, onEdit, on
             <TableRow key={row._id}>
               <TableCell><AssignmentIcon /></TableCell>
               <TableCell>{row?.name}</TableCell>
+              <TableCell>{row?.name}</TableCell>
               <TableCell>{row?.categoria}</TableCell>
               <TableCell align="right">
                 <IconButton 
