@@ -285,7 +285,7 @@ export default function ADDTEMA({StatusTheme, CancelarS, datas ,Status}) {
                     
                 />
                 <label id="foto" 
-                style={{backgroundImage: `url(${previwImg || 'http://server.manna.software:3333/files/'+datas?.imagem})`}}
+                style={{backgroundImage: `url(${previwImg || 'http://wcsg0wosc88kowgc8csgwcs4.194.163.145.253.sslip.io/files/'+datas?.imagem})`}}
                 className={foto ? "temfoto": ""}
                 >
                     <TextField
@@ -300,7 +300,7 @@ export default function ADDTEMA({StatusTheme, CancelarS, datas ,Status}) {
                     
                     
                 </label>
-                <p>Link da imagem atual: {'http://server.manna.software:3333/files/'+datas?.imagem}</p>
+                <p>Link da imagem atual: {'http://wcsg0wosc88kowgc8csgwcs4.194.163.145.253.sslip.io/files/'+datas?.imagem}</p>
                 
                 
             </DialogContent>
